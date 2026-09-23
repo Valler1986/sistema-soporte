@@ -1,6 +1,4 @@
 <div class="dashboard">
-
-  <!-- ENCABEZADO -->
   <div class="dashboard-header">
     <div>
       <h1>Dashboard</h1>
@@ -12,128 +10,67 @@
     </button>
   </div>
 
-
-  <!-- TARJETAS DE RESUMEN -->
   <div class="cards">
-
-    <!-- TOTAL DE ÓRDENES -->
     <div class="card">
-      <div class="card-icon azul">
-        📋
-      </div>
-
+      <div class="card-icon azul">📋</div>
       <div class="card-info">
         <span>Total de Órdenes</span>
-        <strong>128</strong>
+        <strong>{{ totalOrders }}</strong>
         <small>Órdenes registradas</small>
       </div>
     </div>
 
-
-    <!-- PENDIENTES -->
     <div class="card">
-      <div class="card-icon amarillo">
-        ⏳
-      </div>
-
+      <div class="card-icon amarillo">⏳</div>
       <div class="card-info">
-        <span>Pendientes</span>
-        <strong>18</strong>
+        <span>Registrados</span>
+        <strong>{{ pendingOrders }}</strong>
         <small>Esperando atención</small>
       </div>
     </div>
 
-
-    <!-- EN REPARACIÓN -->
     <div class="card">
-      <div class="card-icon naranja">
-        🔧
-      </div>
-
+      <div class="card-icon naranja">🔧</div>
       <div class="card-info">
-        <span>En Reparación</span>
-        <strong>24</strong>
+        <span>En taller</span>
+        <strong>{{ inRepairOrders }}</strong>
         <small>Servicios en proceso</small>
       </div>
     </div>
 
-
-    <!-- LISTAS -->
     <div class="card">
-      <div class="card-icon verde">
-        ✓
-      </div>
-
+      <div class="card-icon verde">✓</div>
       <div class="card-info">
-        <span>Listas para entregar</span>
-        <strong>12</strong>
+        <span>Listos</span>
+        <strong>{{ readyOrders }}</strong>
         <small>Esperando al cliente</small>
       </div>
     </div>
-
   </div>
 
-
-  <!-- SEGUNDA FILA -->
   <div class="dashboard-grid">
-
-
-    <!-- INGRESOS -->
     <div class="panel ingresos">
-
       <div class="panel-header">
         <div>
           <h2>Ingresos</h2>
           <span>Resumen del mes</span>
         </div>
 
-        <strong>S/ 8,450.00</strong>
+        <strong>S/ {{ totalIncome.toFixed(2) }}</strong>
       </div>
 
-
       <div class="ingresos-contenido">
-
-        <div class="barra-ingreso">
-          <div style="height: 70%;"></div>
+        <div *ngFor="let month of monthlyIncome" class="barra-ingreso">
+          <div [style.height.%]="getIncomeBarHeight(month.value)"></div>
         </div>
-
-        <div class="barra-ingreso">
-          <div style="height: 85%;"></div>
-        </div>
-
-        <div class="barra-ingreso">
-          <div style="height: 55%;"></div>
-        </div>
-
-        <div class="barra-ingreso">
-          <div style="height: 90%;"></div>
-        </div>
-
-        <div class="barra-ingreso">
-          <div style="height: 65%;"></div>
-        </div>
-
-        <div class="barra-ingreso">
-          <div style="height: 80%;"></div>
-        </div>
-
       </div>
 
       <div class="meses">
-        <span>Abr</span>
-        <span>May</span>
-        <span>Jun</span>
-        <span>Jul</span>
-        <span>Ago</span>
-        <span>Sep</span>
+        <span *ngFor="let month of monthlyIncome">{{ month.label }}</span>
       </div>
-
     </div>
 
-
-    <!-- ESTADO DE ÓRDENES -->
     <div class="panel">
-
       <div class="panel-header">
         <div>
           <h2>Estado de Órdenes</h2>
@@ -141,76 +78,54 @@
         </div>
       </div>
 
-
       <div class="estado">
-
         <div class="estado-item">
           <div class="estado-nombre">
             <span class="punto pendiente"></span>
-            Pendientes
+            Registrados
           </div>
-
-          <strong>18</strong>
+          <strong>{{ pendingOrders }}</strong>
         </div>
-
 
         <div class="estado-item">
           <div class="estado-nombre">
             <span class="punto reparacion"></span>
-            En reparación
+            En taller
           </div>
-
-          <strong>24</strong>
+          <strong>{{ inRepairOrders }}</strong>
         </div>
-
 
         <div class="estado-item">
           <div class="estado-nombre">
             <span class="punto listo"></span>
-            Listas
+            Listos
           </div>
-
-          <strong>12</strong>
+          <strong>{{ readyOrders }}</strong>
         </div>
-
 
         <div class="estado-item">
           <div class="estado-nombre">
             <span class="punto entregado"></span>
-            Entregadas
+            Entregados
           </div>
-
-          <strong>74</strong>
+          <strong>{{ deliveredOrders }}</strong>
         </div>
-
       </div>
-
     </div>
-
   </div>
 
-
-  <!-- ÚLTIMAS ÓRDENES -->
   <div class="panel tabla-panel">
-
     <div class="panel-header">
-
       <div>
         <h2>Últimas Órdenes</h2>
         <span>Órdenes registradas recientemente</span>
       </div>
 
-      <button class="btn-ver">
-        Ver todas
-      </button>
-
+      <button type="button" class="btn-ver" (click)="verTodas()">Ver todas</button>
     </div>
 
-
     <div class="tabla-container">
-
       <table>
-
         <thead>
           <tr>
             <th>N° Orden</th>
@@ -222,119 +137,21 @@
           </tr>
         </thead>
 
-
         <tbody>
-
-          <tr>
+          <tr *ngFor="let order of lastOrders">
+            <td><strong>#{{ order.id.toString().padStart(6, '0') }}</strong></td>
+            <td>{{ order.clientName }}</td>
+            <td>{{ order.equipment }}</td>
+            <td>{{ order.date }}</td>
             <td>
-              <strong>#000128</strong>
-            </td>
-
-            <td>Juan Pérez</td>
-
-            <td>Lavadora LG</td>
-
-            <td>23/09/2026</td>
-
-            <td>
-              <span class="badge reparacion-badge">
-                En reparación
+              <span class="badge" [ngClass]="getStatusClass(order.status)">
+                {{ order.status }}
               </span>
             </td>
-
-            <td>S/ 280.00</td>
+            <td>S/ {{ order.total.toFixed(2) }}</td>
           </tr>
-
-
-          <tr>
-            <td>
-              <strong>#000127</strong>
-            </td>
-
-            <td>María López</td>
-
-            <td>Refrigeradora Samsung</td>
-
-            <td>23/09/2026</td>
-
-            <td>
-              <span class="badge listo-badge">
-                Lista
-              </span>
-            </td>
-
-            <td>S/ 350.00</td>
-          </tr>
-
-
-          <tr>
-            <td>
-              <strong>#000126</strong>
-            </td>
-
-            <td>Carlos Ramírez</td>
-
-            <td>Microondas Oster</td>
-
-            <td>22/09/2026</td>
-
-            <td>
-              <span class="badge pendiente-badge">
-                Pendiente
-              </span>
-            </td>
-
-            <td>S/ 120.00</td>
-          </tr>
-
-
-          <tr>
-            <td>
-              <strong>#000125</strong>
-            </td>
-
-            <td>Ana Torres</td>
-
-            <td>Televisor LG</td>
-
-            <td>22/09/2026</td>
-
-            <td>
-              <span class="badge entregado-badge">
-                Entregada
-              </span>
-            </td>
-
-            <td>S/ 450.00</td>
-          </tr>
-
-
-          <tr>
-            <td>
-              <strong>#000124</strong>
-            </td>
-
-            <td>Pedro Castillo</td>
-
-            <td>Computadora Lenovo</td>
-
-            <td>21/09/2026</td>
-
-            <td>
-              <span class="badge reparacion-badge">
-                En reparación
-              </span>
-            </td>
-
-            <td>S/ 220.00</td>
-          </tr>
-
         </tbody>
-
       </table>
-
     </div>
-
   </div>
-
 </div>

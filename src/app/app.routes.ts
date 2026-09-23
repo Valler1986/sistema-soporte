@@ -4,19 +4,22 @@ import { PrincipalComponent } from './componentes/principal/principal.component'
 import { DashboardComponent } from './componentes/dashboard/dashboard.component';
 import { OrdenComponent } from './componentes/orden/orden.component';
 import { EstadoComponent } from './componentes/estado/estado.component';
-
+import { ReportesComponent } from './componentes/reportes/reportes.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  {    path: 'principal', component: PrincipalComponent,
+  {
+    path: 'principal',
+    component: PrincipalComponent,
     children: [
       { path: 'dashboard', component: DashboardComponent },
+      { path: 'orden', component: OrdenComponent },
+      { path: 'estado', component: EstadoComponent },
+      { path: 'reportes', component: ReportesComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
-
   { path: '**', redirectTo: 'login' }
-  
 ];
 

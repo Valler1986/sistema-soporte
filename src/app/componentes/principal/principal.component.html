@@ -31,6 +31,12 @@
           </a>
         </li>
         <li>
+          <a routerLink="/principal/reportes" routerLinkActive="active">
+            <span class="icon">📊</span>
+            <span *ngIf="!menuOculto">Reportes</span>
+          </a>
+        </li>
+        <li>
           <a routerLink="/login" class="logout-link">
             <span class="icon">⬅️</span>
             <span *ngIf="!menuOculto">Cerrar sesión</span>

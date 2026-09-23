@@ -1,5 +1,10 @@
+/// <reference types="jasmine" />
+
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { routes } from './app.routes';
+import { OrdenComponent } from './componentes/orden/orden.component';
+import { EstadoComponent } from './componentes/estado/estado.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -14,16 +19,17 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'sistema-soporte' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('sistema-soporte');
-  });
+  it('should include order and status routes in principal', () => {
+    const principalRoute = routes.find((route) => route.path === 'principal');
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, sistema-soporte');
+    expect(principalRoute).toBeTruthy();
+    expect(principalRoute?.children).toContain(jasmine.objectContaining({
+      path: 'orden',
+      component: OrdenComponent,
+    }));
+    expect(principalRoute?.children).toContain(jasmine.objectContaining({
+      path: 'estado',
+      component: EstadoComponent,
+    }));
   });
 });

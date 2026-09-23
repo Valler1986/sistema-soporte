@@ -1,329 +1,199 @@
-/* CONTENEDOR GENERAL */
-.sistema {
-  min-height: 100vh;
-  background: #f4f5f7;
+.orden-page {
+  background: #f5f6f8;
+  min-height: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+  color: #1f2937;
   font-family: Arial, Helvetica, sans-serif;
-  color: #222;
+  animation: fadeInUp 0.35s ease;
 }
 
-
-/* BARRA SUPERIOR */
-.barra-superior {
-  height: 55px;
-  background: white;
-  border: 1px solid #dcdcdc;
-
-  display: flex;
-  align-items: center;
-
-  padding: 0 20px;
-
-  box-sizing: border-box;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-
-/* BOTONES TIPO MAC */
-.controles {
-  display: flex;
-  gap: 7px;
-  margin-right: 15px;
+.page-header {
+  margin-bottom: 20px;
 }
 
-.circulo {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  display: block;
+.eyebrow {
+  margin: 0 0 6px;
+  color: #6b7280;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.rojo {
-  background: #ff5f57;
+.page-header h1 {
+  margin: 0;
+  font-size: 2rem;
 }
 
-.amarillo {
-  background: #ffbd2e;
-}
-
-.verde {
-  background: #28c840;
-}
-
-
-/* TITULO */
-.titulo-barra {
-  border: 1px solid #d4d4d4;
-  border-radius: 5px;
-
-  height: 32px;
-  line-height: 32px;
-
-  flex: 1;
-
-  padding-left: 15px;
-
-  color: #333;
-  font-size: 14px;
-
-  background: #fafafa;
-}
-
-
-/* CONTENIDO */
-.contenido {
-  display: flex;
-  min-height: calc(100vh - 55px);
-}
-
-
-/* MENÚ LATERAL */
-.menu {
-  width: 150px;
-
-  background: #f1f2f4;
-
-  border-right: 1px solid #d9d9d9;
-
-  padding: 15px;
-
-  box-sizing: border-box;
-}
-
-
-/* BOTONES DEL MENÚ */
-.menu-item {
-  width: 100%;
-
-  border: none;
-  border-radius: 5px;
-
-  background: #e2e5e9;
-
-  color: #333;
-
-  padding: 10px 8px;
-
-  margin-bottom: 8px;
-
-  font-size: 14px;
-
-  text-align: left;
-
-  cursor: pointer;
-
-  transition: 0.2s;
-}
-
-.menu-item:hover {
-  background: #d5d9de;
-}
-
-.menu-item.activo {
-  background: #d9dde2;
-  font-weight: bold;
-}
-
-
-/* CONTENIDO PRINCIPAL */
-.principal {
-  flex: 1;
-
-  background: white;
-
-  margin: 15px;
-
-  padding: 20px 25px;
-
-  border: 1px solid #dcdcdc;
-
-  box-sizing: border-box;
-}
-
-
-/* TITULO PRINCIPAL */
-.principal h1 {
-  font-size: 18px;
-  margin: 0 0 20px 0;
-  color: #222;
-}
-
-
-/* SECCIONES */
-.seccion {
-  margin-bottom: 25px;
-}
-
-.seccion h2 {
-  font-size: 14px;
-  font-weight: normal;
-
-  margin: 0 0 7px 0;
-
-  color: #333;
-}
-
-
-/* LÍNEA */
-.linea {
-  height: 1px;
-  background: #dddddd;
-
-  margin-bottom: 14px;
-}
-
-
-/* FILAS */
-.fila {
-  display: flex;
-  gap: 14px;
-
-  margin-bottom: 15px;
-}
-
-
-/* CAMPOS */
-.campo {
-  flex: 1;
-
+.orden-form {
   display: flex;
   flex-direction: column;
+  gap: 20px;
+}
+
+.form-section {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+  animation: fadeInUp 0.35s ease;
+}
+
+.form-section h2 {
+  margin: 0 0 8px;
+  font-size: 1.08rem;
+}
+
+.divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin-bottom: 18px;
+}
+
+.fila {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.fila:last-child {
+  margin-bottom: 0;
+}
+
+.two-columns .campo,
+.cuatro-columnas .campo {
+  flex: 1;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
 }
 
 .campo label {
-  font-size: 12px;
-
-  margin-bottom: 5px;
-
-  color: #333;
+  margin-bottom: 6px;
+  font-size: 0.82rem;
+  color: #374151;
+  font-weight: 600;
 }
 
-
-/* INPUTS */
 .campo input,
 .campo select,
 .campo textarea {
   width: 100%;
-
   box-sizing: border-box;
-
-  border: 1px solid #cfd3d8;
-
-  border-radius: 4px;
-
-  padding: 8px;
-
-  font-size: 13px;
-
-  background: white;
-
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.92rem;
+  background: #fff;
+  color: #111827;
   outline: none;
 }
 
-
-/* EFECTO AL SELECCIONAR */
 .campo input:focus,
 .campo select:focus,
 .campo textarea:focus {
   border-color: #2864dc;
-  box-shadow: 0 0 0 2px rgba(40, 100, 220, 0.08);
+  box-shadow: 0 0 0 3px rgba(40, 100, 220, 0.12);
 }
 
-
-/* TEXTAREA */
 .campo textarea {
-  height: 68px;
-
+  min-height: 82px;
   resize: vertical;
-
   font-family: Arial, Helvetica, sans-serif;
 }
 
-
-/* DATOS DEL PEDIDO */
-.datos-pedido {
-  gap: 12px;
-}
-
-
-/* BOTÓN */
 .acciones {
-  margin-top: 5px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .btn-guardar {
   background: #2864dc;
-
-  color: white;
-
+  color: #fff;
   border: none;
-
-  border-radius: 5px;
-
-  padding: 10px 18px;
-
-  font-size: 13px;
-
-  font-weight: bold;
-
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 0.94rem;
+  font-weight: 700;
   cursor: pointer;
-
-  transition: 0.2s;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .btn-guardar:hover {
   background: #1e50b5;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(40, 100, 220, 0.2);
 }
 
 .btn-guardar:active {
   transform: scale(0.98);
 }
 
+.success-message,
+.error-message {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  animation: fadeInUp 0.25s ease;
+}
 
-/* RESPONSIVE */
+.success-message {
+  background: #e8f7ee;
+  color: #1f7a4d;
+  border: 1px solid #bfe7d2;
+}
+
+.error-message {
+  background: #fff1f2;
+  color: #b42318;
+  border: 1px solid #fecdd3;
+}
+
 @media (max-width: 900px) {
-
   .fila {
     flex-direction: column;
   }
 
-  .menu {
-    width: 130px;
+  .orden-page {
+    padding: 18px;
   }
-
-  .principal {
-    margin: 10px;
-    padding: 15px;
-  }
-
 }
 
-
-/* CELULARES */
 @media (max-width: 600px) {
-
-  .contenido {
-    flex-direction: column;
+  .orden-page {
+    padding: 14px;
   }
 
-  .menu {
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .form-section {
+    padding: 16px;
+  }
+
+  .acciones {
+    justify-content: stretch;
+  }
+
+  .btn-guardar {
     width: 100%;
-
-    display: flex;
-
-    gap: 5px;
-
-    overflow-x: auto;
   }
-
-  .menu-item {
-    min-width: 120px;
-    margin-bottom: 0;
-  }
-
-  .principal {
-    margin: 0;
-
-    border-left: none;
-    border-right: none;
-  }
-
 }

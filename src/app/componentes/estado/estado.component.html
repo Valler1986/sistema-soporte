@@ -1,1 +1,85 @@
-<p>estado works!</p>
+<section class="estado-page">
+  <div class="page-header">
+    <div>
+      <p class="eyebrow">Seguimiento</p>
+      <h1>Estado de Órdenes</h1>
+    </div>
+    <button type="button" class="btn-primary" (click)="actualizarEstados()">Actualizar</button>
+  </div>
+
+  <div class="estado-grid">
+    <article class="estado-card pending">
+      <div class="estado-top">
+        <span class="dot"></span>
+        <h2>Registrados</h2>
+      </div>
+      <strong>{{ pendientes }}</strong>
+      <small>Esperando atención</small>
+    </article>
+
+    <article class="estado-card repair">
+      <div class="estado-top">
+        <span class="dot"></span>
+        <h2>En taller</h2>
+      </div>
+      <strong>{{ enReparacion }}</strong>
+      <small>En proceso técnico</small>
+    </article>
+
+    <article class="estado-card ready">
+      <div class="estado-top">
+        <span class="dot"></span>
+        <h2>Listos</h2>
+      </div>
+      <strong>{{ listas }}</strong>
+      <small>Listos para entregar</small>
+    </article>
+
+    <article class="estado-card delivered">
+      <div class="estado-top">
+        <span class="dot"></span>
+        <h2>Entregados</h2>
+      </div>
+      <strong>{{ entregadas }}</strong>
+      <small>Servicios cerrados</small>
+    </article>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <h2>Órdenes actuales</h2>
+        <span>Últimos movimientos</span>
+      </div>
+      <small class="updated-text">Actualizado: {{ actualizadoEn }}</small>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>N° Orden</th>
+            <th>Cliente</th>
+            <th>Equipo</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let orden of ordenes">
+            <td>{{ orden.numero }}</td>
+            <td>{{ orden.cliente }}</td>
+            <td>{{ orden.equipo }}</td>
+            <td>
+              <select class="status-select" [ngModel]="orden.estado" (ngModelChange)="cambiarEstado(orden.numero, $event)" name="estado-{{ orden.numero }}">
+                <option *ngFor="let opcion of opcionesEstado" [value]="opcion">{{ opcion }}</option>
+              </select>
+            </td>
+            <td>{{ orden.fecha }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+

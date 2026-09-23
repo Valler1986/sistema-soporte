@@ -1,1 +1,79 @@
-<p>reportes works!</p>
+<section class="reportes-page">
+  <div class="page-header">
+    <div>
+      <p class="eyebrow">Administración</p>
+      <h1>Reportes</h1>
+    </div>
+  </div>
+
+  <div class="reportes-grid">
+    <article class="summary-card">
+      <span>Total ingresos</span>
+      <strong>{{ formatCurrency(totalIncome) }}</strong>
+    </article>
+
+    <article class="summary-card">
+      <span>Órdenes en proceso</span>
+      <strong>{{ getInProgressOrders().length }}</strong>
+    </article>
+
+    <article class="summary-card">
+      <span>Entregadas</span>
+      <strong>{{ getDeliveredOrdersCount() }}</strong>
+    </article>
+  </div>
+
+  <div class="filters-panel">
+    <label>
+      Buscar
+      <input type="text" [(ngModel)]="searchTerm" placeholder="Cliente, artefacto o número" />
+    </label>
+
+    <label>
+      Estado
+      <select [(ngModel)]="statusFilter">
+        <option *ngFor="let option of statusOptions" [value]="option">{{ option }}</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="header-table">
+    <strong>Mostrando {{ getFilteredHistorical().length }} de {{ allOrdersCount }} órdenes</strong>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>N° Orden</th>
+          <th>Cliente</th>
+          <th>Artefacto</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Monto</th>
+        </tr>
+      </thead>
+
+      <tbody *ngIf="getFilteredHistorical().length; else emptyState">
+        <tr *ngFor="let order of getFilteredHistorical()">
+          <td>#{{ order.id.toString().padStart(6, '0') }}</td>
+          <td>{{ order.clientName }}</td>
+          <td>{{ order.equipment }}</td>
+          <td>{{ order.date }}</td>
+          <td>
+            <span class="status-badge" [ngClass]="getStatusClass(order.status)">{{ order.status }}</span>
+          </td>
+          <td>{{ formatCurrency(order.total) }}</td>
+        </tr>
+      </tbody>
+
+      <ng-template #emptyState>
+        <tbody>
+          <tr>
+            <td colspan="6" class="empty-state">No hay órdenes con ese criterio de búsqueda.</td>
+          </tr>
+        </tbody>
+      </ng-template>
+    </table>
+  </div>
+</section>
