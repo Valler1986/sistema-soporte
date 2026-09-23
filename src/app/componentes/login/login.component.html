@@ -1,1 +1,41 @@
-<p>login works!</p>
+<div class="login-page">
+  <div class="login-card shadow-lg border-0">
+    <div class="login-header text-center mb-4">
+      <h1 class="brand-title">{{ systemName }}</h1>
+    </div>
+
+    <form (ngSubmit)="login()" novalidate>
+      <div class="mb-3">
+        <label for="username" class="form-label">Usuario</label>
+        <input
+          id="username"
+          type="text"
+          class="form-control"
+          [(ngModel)]="username"
+          name="username"
+          placeholder="Ingrese su usuario"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          class="form-control"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="Ingrese su contraseña"
+          required
+        />
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger py-2 mb-3">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 fw-bold">INGRESAR</button>
+    </form>
+  </div>
+</div>

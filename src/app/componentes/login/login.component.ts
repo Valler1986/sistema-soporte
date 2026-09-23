@@ -1,11 +1,30 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  username = '';
+  password = '';
+  errorMessage = '';
+  systemName = 'SystemSupport';
 
+  constructor(private router: Router) {}
+
+  login(): void {
+    if (this.username.trim() === 'admin' && this.password === 'admin') {
+      this.errorMessage = '';
+      this.router.navigate(['/dashboard']);
+      return;
+    }
+
+    this.errorMessage = 'Usuario o contraseña incorrectos.';
+  }
 }
