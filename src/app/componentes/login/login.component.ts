@@ -21,7 +21,7 @@ export class LoginComponent {
   login(): void {
     if (this.username.trim() === 'admin' && this.password === 'admin') {
       this.errorMessage = '';
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/principal']);
       return;
     }
 

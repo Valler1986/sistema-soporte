@@ -1,0 +1,47 @@
+<div class="layout-container">
+  <!-- Menú Lateral Izquierdo -->
+  <aside class="sidebar" [class.collapsed]="menuOculto">
+    <div class="sidebar-header">
+      <button (click)="toggleMenu()" class="btn-toggle">☰</button>
+      <span *ngIf="!menuOculto" class="logo-text">Sistema</span>
+    </div>
+
+    <div class="user-info" *ngIf="!menuOculto">
+      <p class="role">Administrador</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul>
+        <li>
+          <a routerLink="/principal/dashboard" routerLinkActive="active">
+            <span class="icon">🏠</span>
+            <span *ngIf="!menuOculto">Inicio</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/principal/orden" routerLinkActive="active">
+            <span class="icon">➕</span>
+            <span *ngIf="!menuOculto">Nueva Orden</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/principal/estado" routerLinkActive="active">
+            <span class="icon">⚙️</span>
+            <span *ngIf="!menuOculto">Estado</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/login" class="logout-link">
+            <span class="icon">⬅️</span>
+            <span *ngIf="!menuOculto">Cerrar sesión</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Área de Contenido de la Derecha (Aquí se renderiza el Dashboard) -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

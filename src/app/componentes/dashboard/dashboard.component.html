@@ -1,23 +1,340 @@
-<div class="dashboard-page">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-    <div class="container-fluid">
-      <span class="navbar-brand fw-bold">{{ systemName }}</span>
-      <span class="navbar-text ms-auto">Panel principal</span>
-    </div>
-  </nav>
+<div class="dashboard">
 
-  <div class="container py-5">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card shadow border-0">
-          <div class="card-body p-4">
-            <h2 class="mb-3 text-primary">Bienvenido al dashboard</h2>
-            <p class="mb-0 text-secondary">
-              Has ingresado correctamente con el usuario administrador.
-            </p>
-          </div>
-        </div>
+  <!-- ENCABEZADO -->
+  <div class="dashboard-header">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Resumen general del servicio técnico</p>
+    </div>
+
+    <button class="btn-nueva" routerLink="/principal/orden">
+      + Nueva Orden
+    </button>
+  </div>
+
+
+  <!-- TARJETAS DE RESUMEN -->
+  <div class="cards">
+
+    <!-- TOTAL DE ÓRDENES -->
+    <div class="card">
+      <div class="card-icon azul">
+        📋
+      </div>
+
+      <div class="card-info">
+        <span>Total de Órdenes</span>
+        <strong>128</strong>
+        <small>Órdenes registradas</small>
       </div>
     </div>
+
+
+    <!-- PENDIENTES -->
+    <div class="card">
+      <div class="card-icon amarillo">
+        ⏳
+      </div>
+
+      <div class="card-info">
+        <span>Pendientes</span>
+        <strong>18</strong>
+        <small>Esperando atención</small>
+      </div>
+    </div>
+
+
+    <!-- EN REPARACIÓN -->
+    <div class="card">
+      <div class="card-icon naranja">
+        🔧
+      </div>
+
+      <div class="card-info">
+        <span>En Reparación</span>
+        <strong>24</strong>
+        <small>Servicios en proceso</small>
+      </div>
+    </div>
+
+
+    <!-- LISTAS -->
+    <div class="card">
+      <div class="card-icon verde">
+        ✓
+      </div>
+
+      <div class="card-info">
+        <span>Listas para entregar</span>
+        <strong>12</strong>
+        <small>Esperando al cliente</small>
+      </div>
+    </div>
+
   </div>
+
+
+  <!-- SEGUNDA FILA -->
+  <div class="dashboard-grid">
+
+
+    <!-- INGRESOS -->
+    <div class="panel ingresos">
+
+      <div class="panel-header">
+        <div>
+          <h2>Ingresos</h2>
+          <span>Resumen del mes</span>
+        </div>
+
+        <strong>S/ 8,450.00</strong>
+      </div>
+
+
+      <div class="ingresos-contenido">
+
+        <div class="barra-ingreso">
+          <div style="height: 70%;"></div>
+        </div>
+
+        <div class="barra-ingreso">
+          <div style="height: 85%;"></div>
+        </div>
+
+        <div class="barra-ingreso">
+          <div style="height: 55%;"></div>
+        </div>
+
+        <div class="barra-ingreso">
+          <div style="height: 90%;"></div>
+        </div>
+
+        <div class="barra-ingreso">
+          <div style="height: 65%;"></div>
+        </div>
+
+        <div class="barra-ingreso">
+          <div style="height: 80%;"></div>
+        </div>
+
+      </div>
+
+      <div class="meses">
+        <span>Abr</span>
+        <span>May</span>
+        <span>Jun</span>
+        <span>Jul</span>
+        <span>Ago</span>
+        <span>Sep</span>
+      </div>
+
+    </div>
+
+
+    <!-- ESTADO DE ÓRDENES -->
+    <div class="panel">
+
+      <div class="panel-header">
+        <div>
+          <h2>Estado de Órdenes</h2>
+          <span>Distribución actual</span>
+        </div>
+      </div>
+
+
+      <div class="estado">
+
+        <div class="estado-item">
+          <div class="estado-nombre">
+            <span class="punto pendiente"></span>
+            Pendientes
+          </div>
+
+          <strong>18</strong>
+        </div>
+
+
+        <div class="estado-item">
+          <div class="estado-nombre">
+            <span class="punto reparacion"></span>
+            En reparación
+          </div>
+
+          <strong>24</strong>
+        </div>
+
+
+        <div class="estado-item">
+          <div class="estado-nombre">
+            <span class="punto listo"></span>
+            Listas
+          </div>
+
+          <strong>12</strong>
+        </div>
+
+
+        <div class="estado-item">
+          <div class="estado-nombre">
+            <span class="punto entregado"></span>
+            Entregadas
+          </div>
+
+          <strong>74</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ÚLTIMAS ÓRDENES -->
+  <div class="panel tabla-panel">
+
+    <div class="panel-header">
+
+      <div>
+        <h2>Últimas Órdenes</h2>
+        <span>Órdenes registradas recientemente</span>
+      </div>
+
+      <button class="btn-ver">
+        Ver todas
+      </button>
+
+    </div>
+
+
+    <div class="tabla-container">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>N° Orden</th>
+            <th>Cliente</th>
+            <th>Artefacto</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Costo</th>
+          </tr>
+        </thead>
+
+
+        <tbody>
+
+          <tr>
+            <td>
+              <strong>#000128</strong>
+            </td>
+
+            <td>Juan Pérez</td>
+
+            <td>Lavadora LG</td>
+
+            <td>23/09/2026</td>
+
+            <td>
+              <span class="badge reparacion-badge">
+                En reparación
+              </span>
+            </td>
+
+            <td>S/ 280.00</td>
+          </tr>
+
+
+          <tr>
+            <td>
+              <strong>#000127</strong>
+            </td>
+
+            <td>María López</td>
+
+            <td>Refrigeradora Samsung</td>
+
+            <td>23/09/2026</td>
+
+            <td>
+              <span class="badge listo-badge">
+                Lista
+              </span>
+            </td>
+
+            <td>S/ 350.00</td>
+          </tr>
+
+
+          <tr>
+            <td>
+              <strong>#000126</strong>
+            </td>
+
+            <td>Carlos Ramírez</td>
+
+            <td>Microondas Oster</td>
+
+            <td>22/09/2026</td>
+
+            <td>
+              <span class="badge pendiente-badge">
+                Pendiente
+              </span>
+            </td>
+
+            <td>S/ 120.00</td>
+          </tr>
+
+
+          <tr>
+            <td>
+              <strong>#000125</strong>
+            </td>
+
+            <td>Ana Torres</td>
+
+            <td>Televisor LG</td>
+
+            <td>22/09/2026</td>
+
+            <td>
+              <span class="badge entregado-badge">
+                Entregada
+              </span>
+            </td>
+
+            <td>S/ 450.00</td>
+          </tr>
+
+
+          <tr>
+            <td>
+              <strong>#000124</strong>
+            </td>
+
+            <td>Pedro Castillo</td>
+
+            <td>Computadora Lenovo</td>
+
+            <td>21/09/2026</td>
+
+            <td>
+              <span class="badge reparacion-badge">
+                En reparación
+              </span>
+            </td>
+
+            <td>S/ 220.00</td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
 </div>

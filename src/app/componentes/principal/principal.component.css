@@ -1,0 +1,105 @@
+/* Botón para ocultar/mostrar menú */
+.btn-toggle {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  color: #0f172a;
+  transition: background-color 0.2s ease;
+}
+
+.btn-toggle:hover {
+  background-color: #f1f5f9;
+}
+
+/* Animación y colapso del Menú Lateral */
+.menu {
+  width: 240px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.menu.colapsado {
+  width: 65px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.menu.colapsado .menu-item {
+  justify-content: center;
+  padding: 0.75rem 0;
+}
+
+.menu.colapsado .icono {
+  font-size: 1.25rem;
+}
+/* Contenedor principal en pantalla completa */
+.layout-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: #f4f6f9;
+}
+
+/* Estilos de la barra lateral izquierda */
+.sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  flex-shrink: 0;
+}
+
+/* Estado cuando se colapsa el menú */
+.sidebar.collapsed {
+  width: 70px;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  gap: 10px;
+}
+
+.btn-toggle {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: #333;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+  background-color: #e8f0fe;
+  color: #1a73e8;
+}
+
+/* Área derecha donde carga el router-outlet */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
