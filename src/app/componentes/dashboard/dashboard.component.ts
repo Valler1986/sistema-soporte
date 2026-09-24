@@ -12,7 +12,7 @@ import { OrderService } from '../../services/orden.service';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  readonly systemName = 'SystemSupport';
+  readonly systemName = 'TecFix S.A.';
 
   constructor(
     private readonly orderService: OrderService,

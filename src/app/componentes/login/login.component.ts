@@ -14,7 +14,7 @@ export class LoginComponent {
   username = '';
   password = '';
   errorMessage = '';
-  systemName = 'SystemSupport';
+  systemName = 'TecFix S.A.';
 
   constructor(private router: Router) {}
 
