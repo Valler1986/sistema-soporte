@@ -4,7 +4,9 @@
       <p class="eyebrow">Seguimiento</p>
       <h1>Estado de Órdenes</h1>
     </div>
-    <button type="button" class="btn-primary" (click)="actualizarEstados()">Actualizar</button>
+    <button type="button" class="btn-primary" (click)="consultarEstados()" [disabled]="isLoading">
+      {{ isLoading ? 'Consultando...' : 'Consultar' }}
+    </button>
   </div>
 
   <div class="estado-grid">
@@ -63,23 +65,43 @@
             <th>Equipo</th>
             <th>Estado</th>
             <th>Fecha</th>
+            <th>Acción</th>
           </tr>
         </thead>
         <tbody>
+          <tr *ngIf="isLoading">
+            <td colspan="6">Consultando órdenes...</td>
+          </tr>
+          <tr *ngIf="!isLoading && errorMessage">
+            <td colspan="6" class="table-message error-message">{{ errorMessage }}</td>
+          </tr>
+          <tr *ngIf="!isLoading && !errorMessage && ordenes.length === 0">
+            <td colspan="6">No hay órdenes disponibles.</td>
+          </tr>
           <tr *ngFor="let orden of ordenes">
             <td>{{ orden.numero }}</td>
             <td>{{ orden.cliente }}</td>
             <td>{{ orden.equipo }}</td>
             <td>
-              <select class="status-select" [ngModel]="orden.estado" (ngModelChange)="cambiarEstado(orden.numero, $event)" name="estado-{{ orden.numero }}">
+              <select class="status-select" [ngModel]="orden.estadoSeleccionado" (ngModelChange)="cambiarEstado(orden.id, $event)" name="estado-{{ orden.numero }}" [disabled]="orden.actualizando">
                 <option *ngFor="let opcion of opcionesEstado" [value]="opcion">{{ opcion }}</option>
               </select>
             </td>
             <td>{{ orden.fecha }}</td>
+            <td>
+              <button
+                type="button"
+                class="btn-row-update"
+                (click)="actualizarEstado(orden)"
+                [disabled]="orden.actualizando || orden.estadoSeleccionado === orden.estado"
+              >
+                {{ orden.actualizando ? 'Guardando...' : 'Actualizar' }}
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
+    <p *ngIf="successMessage" class="table-message success-message">{{ successMessage }}</p>
   </div>
 </section>
-

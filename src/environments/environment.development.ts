@@ -1,5 +1,7 @@
 
 export const environment = {
+  // Cambiar a true para actualizar estados de órdenes mediante API Gateway.
+  enableRemoteOrderStatusUpdates: true,
   // Cambiar a true para registrar las órdenes en API Gateway.
   enableRemoteOrderRegistration: true,
   // Cambiar a true para consultar las marcas desde API Gateway.

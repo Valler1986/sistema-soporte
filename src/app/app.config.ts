@@ -7,6 +7,7 @@ import { AUTH_CONFIGURATION } from './config/auth.config';
 import { ARTIFACT_TYPES_CONFIGURATION } from './config/artifact-types.config';
 import { BRANDS_CONFIGURATION } from './config/brands.config';
 import { ORDER_REGISTRATION_CONFIGURATION } from './config/order-registration.config';
+import { ORDER_STATUS_CONFIGURATION } from './config/order-status.config';
 import { RECENT_ORDERS_CONFIGURATION } from './config/recent-orders.config';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { environment } from '../environments/environment';
@@ -20,6 +21,7 @@ export const appConfig: ApplicationConfig = {
     { provide: ARTIFACT_TYPES_CONFIGURATION, useValue: environment },
     { provide: BRANDS_CONFIGURATION, useValue: environment },
     { provide: ORDER_REGISTRATION_CONFIGURATION, useValue: environment },
+    { provide: ORDER_STATUS_CONFIGURATION, useValue: environment },
     { provide: RECENT_ORDERS_CONFIGURATION, useValue: environment }
   ]
 };

@@ -1,4 +1,5 @@
 export const environment = {
+  enableRemoteOrderStatusUpdates: true,
   enableRemoteOrderRegistration: true,
   enableRemoteBrands: true,
   localBrands: [
