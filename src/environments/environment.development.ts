@@ -1,11 +1,11 @@
 
 export const environment = {
   // Cambiar a true para actualizar estados de órdenes mediante API Gateway.
-  enableRemoteOrderStatusUpdates: true,
+  enableRemoteOrderStatusUpdates: false,
   // Cambiar a true para registrar las órdenes en API Gateway.
-  enableRemoteOrderRegistration: true,
+  enableRemoteOrderRegistration: false,
   // Cambiar a true para consultar las marcas desde API Gateway.
-  enableRemoteBrands: true,
+  enableRemoteBrands: false,
   localBrands: [
     { id: 1, nombre: 'LG' },
     { id: 2, nombre: 'Samsung' },
@@ -14,7 +14,7 @@ export const environment = {
     { id: 5, nombre: 'Chispita' }
   ],
   // Cambiar a true para consultar las últimas órdenes desde API Gateway.
-  enableRemoteLatestOrders: true,
+  enableRemoteLatestOrders: false,
   //CAMBIAR AQUI PARA PROBAR LISTAS REMOTAS O LOCALES
   //TRUE: HABILITA REMOTO, FALSE: HABILITA DATA LOCAL
   enableRemoteArtifactTypes: true,
@@ -29,7 +29,7 @@ export const environment = {
   ],
   //CAMBIAR AQUI PARA PROBAR VALIDACION LOGIN REMOTA
   //TRUE: HABILITA LOGIN REMOTO, FALSE: HABILITA LOGIN LOCAL
-  enableRemoteLogin: true,
+  enableRemoteLogin: false,
   localLogin: {
     username: 'admin',
     password: 'admin',
