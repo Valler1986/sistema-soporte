@@ -14,17 +14,17 @@
       <div class="fila">
         <div class="campo">
           <label for="nombre">Nombre</label>
-          <input id="nombre" name="nombre" type="text" [(ngModel)]="order.nombre" placeholder="Ingrese el nombre" required />
+          <input id="nombre" name="nombre" type="text" [(ngModel)]="order.nombre" placeholder="Ingrese el nombre" [disabled]="isSaving" required />
         </div>
 
         <div class="campo">
           <label for="apellidos">Apellidos</label>
-          <input id="apellidos" name="apellidos" type="text" [(ngModel)]="order.apellidos" placeholder="Ingrese los apellidos" required />
+          <input id="apellidos" name="apellidos" type="text" [(ngModel)]="order.apellidos" placeholder="Ingrese los apellidos" [disabled]="isSaving" required />
         </div>
 
         <div class="campo">
           <label for="dni">DNI</label>
-          <input id="dni" name="dni" type="text" [(ngModel)]="order.dni" placeholder="Ingrese el DNI" minlength="8" maxlength="8" pattern="\d{8}" required />
+          <input id="dni" name="dni" type="text" [(ngModel)]="order.dni" placeholder="Ingrese el DNI" minlength="8" maxlength="8" pattern="\d{8}" [disabled]="isSaving" required />
         </div>
       </div>
     </section>
@@ -36,11 +36,11 @@
       <div class="fila">
         <div class="campo">
           <label for="tipo">Tipo</label>
-          <select id="tipo" name="tipo" [(ngModel)]="order.tipo" [disabled]="isLoadingArtifactTypes || artifactTypes.length === 0" required>
-            <option value="">
+          <select id="tipo" name="tipo" [(ngModel)]="order.tipoId" [disabled]="isLoadingArtifactTypes || artifactTypes.length === 0 || isSaving" required>
+            <option [ngValue]="null">
               {{ isLoadingArtifactTypes ? 'Cargando tipos...' : 'Seleccione una opción' }}
             </option>
-            <option *ngFor="let artifactType of artifactTypes" [value]="artifactType.nombre">
+            <option *ngFor="let artifactType of artifactTypes" [ngValue]="artifactType.id">
               {{ artifactType.nombre }}
             </option>
           </select>
@@ -52,11 +52,11 @@
 
         <div class="campo">
           <label for="marca">Marca</label>
-          <select id="marca" name="marca" [(ngModel)]="order.marca" [disabled]="isLoadingBrands || brands.length === 0" required>
-            <option value="">
+          <select id="marca" name="marca" [(ngModel)]="order.marcaId" [disabled]="isLoadingBrands || brands.length === 0 || isSaving" required>
+            <option [ngValue]="null">
               {{ isLoadingBrands ? 'Cargando marcas...' : 'Seleccione una opción' }}
             </option>
-            <option *ngFor="let brand of brands" [value]="brand.nombre">
+            <option *ngFor="let brand of brands" [ngValue]="brand.id">
               {{ brand.nombre }}
             </option>
           </select>
@@ -70,24 +70,24 @@
       <div class="fila">
         <div class="campo">
           <label for="serie">N° de serie</label>
-          <input id="serie" name="serie" type="text" [(ngModel)]="order.serie" placeholder="Número de serie" />
+          <input id="serie" name="serie" type="text" [(ngModel)]="order.serie" placeholder="Número de serie" [disabled]="isSaving" />
         </div>
 
         <div class="campo">
           <label for="anio">Año de fabricación</label>
-          <input id="anio" name="anio" type="number" [(ngModel)]="order.anio" placeholder="Ej. 2022" />
+          <input id="anio" name="anio" type="number" [(ngModel)]="order.anio" placeholder="Ej. 2022" [disabled]="isSaving" />
         </div>
       </div>
 
       <div class="fila two-columns">
         <div class="campo">
           <label for="problema">Descripción del problema</label>
-          <textarea id="problema" name="problema" [(ngModel)]="order.problema" placeholder="Describa el problema del artefacto" required></textarea>
+          <textarea id="problema" name="problema" [(ngModel)]="order.problema" placeholder="Describa el problema del artefacto" [disabled]="isSaving" required></textarea>
         </div>
 
         <div class="campo">
           <label for="diagnostico">Diagnóstico</label>
-          <textarea id="diagnostico" name="diagnostico" [(ngModel)]="order.diagnostico" placeholder="Ingrese el diagnóstico técnico"></textarea>
+          <textarea id="diagnostico" name="diagnostico" [(ngModel)]="order.diagnostico" placeholder="Ingrese el diagnóstico técnico" [disabled]="isSaving"></textarea>
         </div>
       </div>
     </section>
@@ -99,28 +99,30 @@
       <div class="fila cuatro-columnas">
         <div class="campo">
           <label for="fecha">Fecha</label>
-          <input id="fecha" name="fecha" type="date" [(ngModel)]="order.fecha" required />
+          <input id="fecha" name="fecha" type="date" [(ngModel)]="order.fecha" [disabled]="isSaving" required />
         </div>
 
         <div class="campo">
           <label for="dniCliente">DNI del cliente</label>
-          <input id="dniCliente" name="dniCliente" type="text" [(ngModel)]="order.dni" placeholder="DNI" minlength="8" maxlength="8" pattern="\d{8}" required />
+          <input id="dniCliente" name="dniCliente" type="text" [(ngModel)]="order.dni" placeholder="DNI" minlength="8" maxlength="8" pattern="\d{8}" [disabled]="isSaving" required />
         </div>
 
         <div class="campo">
           <label for="fechaEntrega">Fecha de entrega</label>
-          <input id="fechaEntrega" name="fechaEntrega" type="date" [(ngModel)]="order.fechaEntrega" required />
+          <input id="fechaEntrega" name="fechaEntrega" type="date" [(ngModel)]="order.fechaEntrega" [disabled]="isSaving" required />
         </div>
 
         <div class="campo">
           <label for="costo">Costo total</label>
-          <input id="costo" name="costo" type="number" [(ngModel)]="order.costo" placeholder="S/ 0.00" min="1" required />
+          <input id="costo" name="costo" type="number" [(ngModel)]="order.costo" placeholder="S/ 0.00" min="1" [disabled]="isSaving" required />
         </div>
       </div>
     </section>
 
     <div class="acciones">
-      <button type="submit" class="btn-guardar">Guardar Orden</button>
+      <button type="submit" class="btn-guardar" [disabled]="isSaving">
+        {{ isSaving ? 'Guardando...' : 'Guardar Orden' }}
+      </button>
     </div>
 
     <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>

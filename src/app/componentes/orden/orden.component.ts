@@ -1,18 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { OrderService } from '../../services/orden.service';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ArtefactoService } from '../../services/artefacto.service';
 import { ArtifactType } from '../../models/artefacto.model';
 import { Brand } from '../../models/marca.model';
+import { CreateOrderRequest, OrderRegistrationResult } from '../../models/orden-request.model';
 import { MarcaService } from '../../services/marca.service';
+import { RegistroOrdenService } from '../../services/registro-orden.service';
 
 interface OrdenForm {
   nombre: string;
   apellidos: string;
   dni: string;
-  tipo: string;
-  marca: string;
+  tipoId: number | null;
+  marcaId: number | null;
   serie: string;
   anio: string;
   problema: string;
@@ -32,6 +34,7 @@ interface OrdenForm {
 export class OrdenComponent implements OnInit {
   successMessage = '';
   errorMessage = '';
+  isSaving = false;
   artifactTypes: ArtifactType[] = [];
   isLoadingArtifactTypes = false;
   artifactTypesError = '';
@@ -43,8 +46,8 @@ export class OrdenComponent implements OnInit {
     nombre: '',
     apellidos: '',
     dni: '',
-    tipo: '',
-    marca: '',
+    tipoId: null,
+    marcaId: null,
     serie: '',
     anio: '',
     problema: '',
@@ -55,9 +58,9 @@ export class OrdenComponent implements OnInit {
   };
 
   constructor(
-    private readonly orderService: OrderService,
     private readonly artefactoService: ArtefactoService,
-    private readonly marcaService: MarcaService
+    private readonly marcaService: MarcaService,
+    private readonly registroOrdenService: RegistroOrdenService
   ) {}
 
   ngOnInit(): void {
@@ -93,6 +96,10 @@ export class OrdenComponent implements OnInit {
   }
 
   guardarOrden(): void {
+    if (this.isSaving) {
+      return;
+    }
+
     const error = this.validarOrden();
 
     if (error) {
@@ -102,29 +109,64 @@ export class OrdenComponent implements OnInit {
     }
 
     this.errorMessage = '';
-    const nombreCompleto = `${this.order.nombre} ${this.order.apellidos}`.trim();
+    this.successMessage = '';
 
-    const nuevaOrden = this.orderService.addOrder({
-      clientName: nombreCompleto || 'Cliente sin nombre',
-      equipment: `${this.order.tipo} ${this.order.marca ? `- ${this.order.marca}` : ''}`.trim(),
-      date: this.order.fecha || new Date().toISOString().slice(0, 10),
-      total: Number(this.order.costo || 0)
+    const artifactType = this.artifactTypes.find((item) => item.id === this.order.tipoId);
+    const brand = this.brands.find((item) => item.id === this.order.marcaId);
+    if (!artifactType || !brand) {
+      this.errorMessage = 'Seleccione un tipo de artefacto y una marca válidos.';
+      return;
+    }
+
+    const request: CreateOrderRequest = {
+      nombre: this.order.nombre.trim(),
+      apellidos: this.order.apellidos.trim(),
+      dni: this.order.dni,
+      tipoId: artifactType.id,
+      marcaId: brand.id,
+      nombreEquipo: `${artifactType.nombre} ${brand.nombre}`,
+      nSerie: this.order.serie.trim() || null,
+      anhoFabricacion: this.order.anio === '' ? null : Number(this.order.anio),
+      descripcionProblema: this.order.problema.trim(),
+      diagnostico: this.order.diagnostico.trim() || null,
+      fecha: this.order.fecha,
+      fechaEntrega: this.order.fechaEntrega,
+      costoTotal: Number(this.order.costo)
+    };
+
+    this.isSaving = true;
+    this.registroOrdenService.registerOrder(request, request).subscribe({
+      next: (result: OrderRegistrationResult) => {
+        this.isSaving = false;
+        this.successMessage = result.mode === 'local' && result.localOrderId !== undefined
+          ? `Orden #${result.localOrderId.toString().padStart(6, '0')} registrada localmente.`
+          : 'Orden registrada correctamente en el servidor.';
+        this.resetForm();
+      },
+      error: (requestError: unknown) => {
+        console.error('No fue posible registrar la orden.', requestError);
+        this.errorMessage = this.getRegistrationErrorMessage(requestError);
+        this.isSaving = false;
+      }
     });
-
-    this.successMessage = `Orden #${nuevaOrden.id.toString().padStart(6, '0')} registrada correctamente.`;
-    this.resetForm();
   }
 
   private validarOrden(): string | null {
     if (!this.order.nombre?.trim()) return 'El nombre del cliente es obligatorio.';
     if (!this.order.apellidos?.trim()) return 'Los apellidos del cliente son obligatorios.';
     if (!/^\d{8}$/.test(this.order.dni || '')) return 'El DNI debe tener exactamente 8 dígitos.';
-    if (!this.order.tipo) return 'Debes seleccionar el tipo de artefacto.';
-    if (!this.order.marca?.trim()) return 'La marca del artefacto es obligatoria.';
+    if (this.order.tipoId === null) return 'Debes seleccionar el tipo de artefacto.';
+    if (this.order.marcaId === null) return 'Debes seleccionar la marca del artefacto.';
     if (!this.order.problema?.trim()) return 'Debes describir el problema del artefacto.';
     if (!this.order.fecha) return 'La fecha de ingreso es obligatoria.';
     if (!this.order.fechaEntrega) return 'La fecha de entrega es obligatoria.';
-    if (Number(this.order.costo) <= 0) return 'El costo total debe ser mayor a cero.';
+    if (!Number.isFinite(Number(this.order.costo)) || Number(this.order.costo) <= 0) return 'El costo total debe ser mayor a cero.';
+    if (
+      this.order.anio !== '' &&
+      (!Number.isInteger(Number(this.order.anio)) || Number(this.order.anio) < 1800 || Number(this.order.anio) > 2200)
+    ) {
+      return 'El año de fabricación debe ser un número entre 1800 y 2200.';
+    }
 
     const fechaIngreso = new Date(this.order.fecha);
     const fechaEntrega = new Date(this.order.fechaEntrega);
@@ -134,13 +176,32 @@ export class OrdenComponent implements OnInit {
     return null;
   }
 
+  private getRegistrationErrorMessage(error: unknown): string {
+    if (error instanceof HttpErrorResponse) {
+      if (error.status === 0) {
+        return 'No se pudo conectar con el servicio de órdenes. Verifique la conexión y la configuración CORS.';
+      }
+      if (error.status === 400) {
+        return 'La API rechazó los datos de la orden. Revise los campos ingresados.';
+      }
+      if (error.status === 401 || error.status === 403) {
+        return 'No tiene autorización para registrar órdenes. Inicie sesión nuevamente.';
+      }
+      if (error.status >= 500) {
+        return 'El servidor no pudo registrar la orden. Inténtelo nuevamente más tarde.';
+      }
+    }
+
+    return 'No fue posible registrar la orden. Inténtelo nuevamente.';
+  }
+
   private resetForm(): void {
     this.order = {
       nombre: '',
       apellidos: '',
       dni: '',
-      tipo: '',
-      marca: '',
+      tipoId: null,
+      marcaId: null,
       serie: '',
       anio: '',
       problema: '',

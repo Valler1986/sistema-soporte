@@ -1,4 +1,5 @@
 export const environment = {
+  enableRemoteOrderRegistration: true,
   enableRemoteBrands: true,
   localBrands: [
     { id: 1, nombre: 'LG' },
