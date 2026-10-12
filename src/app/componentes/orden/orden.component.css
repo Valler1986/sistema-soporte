@@ -91,6 +91,21 @@
   font-weight: 600;
 }
 
+.catalog-error,
+.catalog-status {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.82rem;
+}
+
+.catalog-error {
+  color: #b42318;
+}
+
+.catalog-status {
+  color: #6b7280;
+}
+
 .campo input,
 .campo select,
 .campo textarea {

@@ -36,16 +36,18 @@
       <div class="fila">
         <div class="campo">
           <label for="tipo">Tipo</label>
-          <select id="tipo" name="tipo" [(ngModel)]="order.tipo" required>
-            <option value="">Seleccione una opción</option>
-            <option value="Refrigeradora">Refrigeradora</option>
-            <option value="Lavadora">Lavadora</option>
-            <option value="Televisor">Televisor</option>
-            <option value="Microondas">Microondas</option>
-            <option value="Cocina">Cocina</option>
-            <option value="Computadora">Computadora</option>
-            <option value="Otro">Otro</option>
+          <select id="tipo" name="tipo" [(ngModel)]="order.tipo" [disabled]="isLoadingArtifactTypes || artifactTypes.length === 0" required>
+            <option value="">
+              {{ isLoadingArtifactTypes ? 'Cargando tipos...' : 'Seleccione una opción' }}
+            </option>
+            <option *ngFor="let artifactType of artifactTypes" [value]="artifactType.nombre">
+              {{ artifactType.nombre }}
+            </option>
           </select>
+          <small *ngIf="artifactTypesError" class="catalog-error">{{ artifactTypesError }}</small>
+          <small *ngIf="!isLoadingArtifactTypes && !artifactTypesError && artifactTypes.length === 0" class="catalog-status">
+            El catálogo no tiene tipos disponibles.
+          </small>
         </div>
 
         <div class="campo">
@@ -114,4 +116,3 @@
     <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
   </form>
 </section>
-

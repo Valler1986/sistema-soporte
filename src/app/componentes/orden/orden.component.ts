@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { OrderService } from '../../services/orden.service';
+import { ArtefactoService } from '../../services/artefacto.service';
+import { ArtifactType } from '../../models/artefacto.model';
 
 interface OrdenForm {
   nombre: string;
@@ -25,9 +27,12 @@ interface OrdenForm {
   templateUrl: './orden.component.html',
   styleUrl: './orden.component.css'
 })
-export class OrdenComponent {
+export class OrdenComponent implements OnInit {
   successMessage = '';
   errorMessage = '';
+  artifactTypes: ArtifactType[] = [];
+  isLoadingArtifactTypes = false;
+  artifactTypesError = '';
 
   order: OrdenForm = {
     nombre: '',
@@ -44,7 +49,27 @@ export class OrdenComponent {
     costo: ''
   };
 
-  constructor(private readonly orderService: OrderService) {}
+  constructor(
+    private readonly orderService: OrderService,
+    private readonly artefactoService: ArtefactoService
+  ) {}
+
+  ngOnInit(): void {
+    this.isLoadingArtifactTypes = true;
+    this.artifactTypesError = '';
+
+    this.artefactoService.getArtifactTypes().subscribe({
+      next: (artifactTypes) => {
+        this.artifactTypes = artifactTypes;
+        this.isLoadingArtifactTypes = false;
+      },
+      error: (error: unknown) => {
+        console.error('No fue posible cargar los tipos de artefacto.', error);
+        this.artifactTypesError = 'No fue posible cargar los tipos de artefacto. Verifique la conexión e inténtelo nuevamente.';
+        this.isLoadingArtifactTypes = false;
+      }
+    });
+  }
 
   guardarOrden(): void {
     const error = this.validarOrden();
