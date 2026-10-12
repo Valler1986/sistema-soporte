@@ -11,7 +11,7 @@ export interface AuthenticatedUser {
 }
 
 export interface LoginResponse {
-  accessToken: string;
-  tokenType: 'Bearer';
+  accessToken: string | null;
+  tokenType: 'Bearer' | null;
   user: AuthenticatedUser;
 }
