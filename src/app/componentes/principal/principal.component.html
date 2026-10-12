@@ -37,7 +37,7 @@
           </a>
         </li>
         <li>
-          <a routerLink="/login" class="logout-link">
+          <a routerLink="/login" class="logout-link" (click)="logout()">
             <span class="icon">⬅️</span>
             <span *ngIf="!menuOculto">Cerrar sesión</span>
           </a>

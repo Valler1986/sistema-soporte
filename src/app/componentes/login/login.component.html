@@ -14,7 +14,9 @@
           [(ngModel)]="username"
           name="username"
           placeholder="Ingrese su usuario"
+          autocomplete="username"
           required
+          [disabled]="isLoading"
         />
       </div>
 
@@ -27,7 +29,9 @@
           [(ngModel)]="password"
           name="password"
           placeholder="Ingrese su contraseña"
+          autocomplete="current-password"
           required
+          [disabled]="isLoading"
         />
       </div>
 
@@ -35,7 +39,9 @@
         {{ errorMessage }}
       </div>
 
-      <button type="submit" class="btn btn-primary w-100 fw-bold">INGRESAR</button>
+      <button type="submit" class="btn btn-primary w-100 fw-bold" [disabled]="isLoading">
+        {{ isLoading ? 'VALIDANDO...' : 'INGRESAR' }}
+      </button>
     </form>
   </div>
 </div>

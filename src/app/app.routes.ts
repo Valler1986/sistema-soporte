@@ -5,6 +5,7 @@ import { DashboardComponent } from './componentes/dashboard/dashboard.component'
 import { OrdenComponent } from './componentes/orden/orden.component';
 import { EstadoComponent } from './componentes/estado/estado.component';
 import { ReportesComponent } from './componentes/reportes/reportes.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -12,6 +13,7 @@ export const routes: Routes = [
   {
     path: 'principal',
     component: PrincipalComponent,
+    canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'orden', component: OrdenComponent },
@@ -22,4 +24,3 @@ export const routes: Routes = [
   },
   { path: '**', redirectTo: 'login' }
 ];
-

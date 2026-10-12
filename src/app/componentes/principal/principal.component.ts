@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-principal',
@@ -15,11 +16,20 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
   styleUrls: ['./principal.component.css']
 })
 export class PrincipalComponent {
-  
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {}
+
   // Estado para colapsar u ocultar el menú lateral
   menuOculto: boolean = false;
 
   toggleMenu(): void {
     this.menuOculto = !this.menuOculto;
+  }
+
+  logout(): void {
+    this.authService.logout();
+    void this.router.navigate(['/login']);
   }
 }
