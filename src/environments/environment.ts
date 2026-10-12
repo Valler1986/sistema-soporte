@@ -1,4 +1,11 @@
 export const environment = {
+  enableRemoteBrands: true,
+  localBrands: [
+    { id: 1, nombre: 'LG' },
+    { id: 2, nombre: 'Samsung' },
+    { id: 3, nombre: 'Sony' },
+    { id: 4, nombre: 'Lenovo' }
+  ],
   enableRemoteLatestOrders: true,
   enableRemoteArtifactTypes: true,
   localArtifactTypes: [

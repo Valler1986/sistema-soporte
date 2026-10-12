@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { OrderService } from '../../services/orden.service';
 import { ArtefactoService } from '../../services/artefacto.service';
 import { ArtifactType } from '../../models/artefacto.model';
+import { Brand } from '../../models/marca.model';
+import { MarcaService } from '../../services/marca.service';
 
 interface OrdenForm {
   nombre: string;
@@ -33,6 +35,9 @@ export class OrdenComponent implements OnInit {
   artifactTypes: ArtifactType[] = [];
   isLoadingArtifactTypes = false;
   artifactTypesError = '';
+  brands: Brand[] = [];
+  isLoadingBrands = false;
+  brandsError = '';
 
   order: OrdenForm = {
     nombre: '',
@@ -51,7 +56,8 @@ export class OrdenComponent implements OnInit {
 
   constructor(
     private readonly orderService: OrderService,
-    private readonly artefactoService: ArtefactoService
+    private readonly artefactoService: ArtefactoService,
+    private readonly marcaService: MarcaService
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +73,21 @@ export class OrdenComponent implements OnInit {
         console.error('No fue posible cargar los tipos de artefacto.', error);
         this.artifactTypesError = 'No fue posible cargar los tipos de artefacto. Verifique la conexión e inténtelo nuevamente.';
         this.isLoadingArtifactTypes = false;
+      }
+    });
+
+    this.isLoadingBrands = true;
+    this.brandsError = '';
+
+    this.marcaService.getBrands().subscribe({
+      next: (brands) => {
+        this.brands = brands;
+        this.isLoadingBrands = false;
+      },
+      error: (error: unknown) => {
+        console.error('No fue posible cargar las marcas.', error);
+        this.brandsError = 'No fue posible cargar las marcas. Verifique la conexión e inténtelo nuevamente.';
+        this.isLoadingBrands = false;
       }
     });
   }

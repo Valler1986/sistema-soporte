@@ -14,3 +14,13 @@ En `src/environments/environment.development.ts`, `false` usa la lista local
 configurada en `localArtifactTypes`; `true` consulta la API. El entorno de
 producción (`src/environments/environment.ts`) habilita por defecto la lista
 remota. Esta bandera es independiente de `enableRemoteLogin`.
+
+## Catálogo de marcas
+
+El mantenedor de órdenes carga las marcas desde
+`GET https://qonxsqyht4.execute-api.us-east-1.amazonaws.com/v1/marca`, con
+respuesta `{ "statusCode": 200, "data": [{ "id": 1, "nombre": "LG" }] }`.
+La bandera `enableRemoteBrands` es independiente: `false` usa `localBrands`
+en `src/environments/environment.development.ts` y `true` consulta la API.
+Producción usa el catálogo remoto por defecto. Ante error remoto no se usa
+fallback local; el selector muestra un mensaje y queda deshabilitado.

@@ -52,7 +52,18 @@
 
         <div class="campo">
           <label for="marca">Marca</label>
-          <input id="marca" name="marca" type="text" [(ngModel)]="order.marca" placeholder="Ingrese la marca" required />
+          <select id="marca" name="marca" [(ngModel)]="order.marca" [disabled]="isLoadingBrands || brands.length === 0" required>
+            <option value="">
+              {{ isLoadingBrands ? 'Cargando marcas...' : 'Seleccione una opción' }}
+            </option>
+            <option *ngFor="let brand of brands" [value]="brand.nombre">
+              {{ brand.nombre }}
+            </option>
+          </select>
+          <small *ngIf="brandsError" class="catalog-error">{{ brandsError }}</small>
+          <small *ngIf="!isLoadingBrands && !brandsError && brands.length === 0" class="catalog-status">
+            El catálogo no tiene marcas disponibles.
+          </small>
         </div>
       </div>
 

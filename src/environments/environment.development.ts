@@ -1,5 +1,14 @@
 
 export const environment = {
+  // Cambiar a true para consultar las marcas desde API Gateway.
+  enableRemoteBrands: false,
+  localBrands: [
+    { id: 1, nombre: 'LG' },
+    { id: 2, nombre: 'Samsung' },
+    { id: 3, nombre: 'Sony' },
+    { id: 4, nombre: 'Lenovo' },
+    { id: 5, nombre: 'Chispita' }
+  ],
   // Cambiar a true para consultar las últimas órdenes desde API Gateway.
   enableRemoteLatestOrders: false,
   //CAMBIAR AQUI PARA PROBAR LISTAS REMOTAS O LOCALES
