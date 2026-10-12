@@ -5,6 +5,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
 import { AUTH_CONFIGURATION } from './config/auth.config';
 import { ARTIFACT_TYPES_CONFIGURATION } from './config/artifact-types.config';
+import { RECENT_ORDERS_CONFIGURATION } from './config/recent-orders.config';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { environment } from '../environments/environment';
 
@@ -14,6 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
     { provide: AUTH_CONFIGURATION, useValue: environment },
-    { provide: ARTIFACT_TYPES_CONFIGURATION, useValue: environment }
+    { provide: ARTIFACT_TYPES_CONFIGURATION, useValue: environment },
+    { provide: RECENT_ORDERS_CONFIGURATION, useValue: environment }
   ]
 };

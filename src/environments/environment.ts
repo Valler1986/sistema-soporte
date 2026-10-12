@@ -1,4 +1,5 @@
 export const environment = {
+  enableRemoteLatestOrders: true,
   enableRemoteArtifactTypes: true,
   localArtifactTypes: [
     { id: 1, nombre: 'Refrigeradora' },

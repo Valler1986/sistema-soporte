@@ -1,5 +1,7 @@
 
 export const environment = {
+  // Cambiar a true para consultar las últimas órdenes desde API Gateway.
+  enableRemoteLatestOrders: false,
   //CAMBIAR AQUI PARA PROBAR LISTAS REMOTAS O LOCALES
   //TRUE: HABILITA REMOTO, FALSE: HABILITA DATA LOCAL
   enableRemoteArtifactTypes: false,

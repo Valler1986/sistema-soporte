@@ -138,6 +138,15 @@
         </thead>
 
         <tbody>
+          <tr *ngIf="isLoadingLastOrders">
+            <td colspan="6">Cargando últimas órdenes...</td>
+          </tr>
+          <tr *ngIf="!isLoadingLastOrders && lastOrdersError">
+            <td colspan="6">{{ lastOrdersError }}</td>
+          </tr>
+          <tr *ngIf="!isLoadingLastOrders && !lastOrdersError && lastOrders.length === 0">
+            <td colspan="6">No hay órdenes registradas.</td>
+          </tr>
           <tr *ngFor="let order of lastOrders">
             <td><strong>#{{ order.id.toString().padStart(6, '0') }}</strong></td>
             <td>{{ order.clientName }}</td>

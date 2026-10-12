@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { OrderStatus } from '../../models/orden.model';
+import { Order, OrderStatus } from '../../models/orden.model';
 import { OrderService } from '../../services/orden.service';
+import { UltimasOrdenesService } from '../../services/ultimas-ordenes.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,15 +12,32 @@ import { OrderService } from '../../services/orden.service';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   readonly systemName = 'TecFix S.A.';
+  lastOrders: Order[] = [];
+  isLoadingLastOrders = false;
+  lastOrdersError = '';
 
   constructor(
     private readonly orderService: OrderService,
-    private readonly router: Router
-  ) {
-    this.orderService.orders$.subscribe(() => {
-      // El dashboard se actualiza cuando cambia la data compartida.
+    private readonly router: Router,
+    private readonly recentOrdersService: UltimasOrdenesService
+  ) {}
+
+  ngOnInit(): void {
+    this.isLoadingLastOrders = true;
+    this.lastOrdersError = '';
+
+    this.recentOrdersService.getRecentOrders().subscribe({
+      next: (orders) => {
+        this.lastOrders = orders;
+        this.isLoadingLastOrders = false;
+      },
+      error: (error: unknown) => {
+        console.error('No fue posible cargar las últimas órdenes.', error);
+        this.lastOrdersError = 'No fue posible cargar las últimas órdenes. Verifique la conexión e inténtelo nuevamente.';
+        this.isLoadingLastOrders = false;
+      }
     });
   }
 
@@ -41,10 +59,6 @@ export class DashboardComponent {
 
   get deliveredOrders(): number {
     return this.orderService.getDeliveredOrders().length;
-  }
-
-  get lastOrders(): Array<{ id: number; clientName: string; equipment: string; status: OrderStatus; date: string; total: number }> {
-    return this.orderService.getAllOrders().slice(0, 4);
   }
 
   verTodas(): void {
@@ -78,4 +92,3 @@ export class DashboardComponent {
     return map[status] ?? 'pendiente-badge';
   }
 }
-
