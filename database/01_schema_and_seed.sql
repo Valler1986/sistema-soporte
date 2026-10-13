@@ -338,3 +338,16 @@ END;
 CLOSE cursor_identidades;
 DEALLOCATE cursor_identidades;
 GO
+
+-- Insertar el usuario admin con contraseña hasheada (Hash SHA-256 de "admin")
+-- El hash de "admin" es: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+INSERT INTO dbo.usuarios (rol_id, nombre_usuario, hash_contrasena, nombre_completo, correo, activo)
+VALUES (
+    1, 
+    'admin', 
+    '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 
+    N'Administrador General', 
+    'admin@tecfix.com', 
+    1
+);
+GO
